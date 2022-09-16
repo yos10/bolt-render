@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: dev
+    tty: true
+    volumes:
+      - .:/bot-study
