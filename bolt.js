@@ -4,11 +4,22 @@ require('dotenv').config();
 
 const { App } = require('@slack/bolt');
 
+// https://slack.dev/bolt-js/concepts#custom-routes
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   appToken: process.env.SLACK_APP_TOKEN,
   socketMode: true,
   logLevel: 'debug',
+  customRoutes: [
+    {
+      path: '/healthz',
+      method: ['GET'],
+      handler: (req, res) => {
+        res.writeHead(200);
+        res.end('Health check information displayed here!');
+      },
+    },
+  ],
 });
 
 app.message(/^hello$/i, async ({ message, say }) => {

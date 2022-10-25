@@ -5,5 +5,7 @@ services:
       context: .
       target: dev
     tty: true
+    ports:
+      - 8000:3000
     volumes:
       - .:/bot-study
