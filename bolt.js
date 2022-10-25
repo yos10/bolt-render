@@ -10,6 +10,7 @@ const app = new App({
   appToken: process.env.SLACK_APP_TOKEN,
   socketMode: true,
   logLevel: 'debug',
+  installerOptions: { port: 10000 },
   customRoutes: [
     {
       path: '/healthz',
