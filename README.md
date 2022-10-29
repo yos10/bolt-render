@@ -1,26 +1,18 @@
-## アプリの再起動
+ソケットモードを利用している場合、render では Background Worker でないと無理みたい。
 
-フリープランでは 15 分間何もしないで放置しているとボットが反応しなくなる。
+https://slack.dev/bolt-js/ja-jp/deployments/heroku#prepare-the-app-for-heroku
 
-https://community.render.com/t/a-dump-question-how-to-reboot-a-server-on-render/1651
+https://community.render.com/t/web-app-discord-bot-deploy-keeps-failing/5361/2
 
-再起動は用意されていないので、以下の方法を用いるといいらしい。
+ボットをデプロイするなら railway.app が良さそう。
 
-- アプリの左のメニューの `Shell` からプロセスを kill (有料のプランでしか使えないから未確認)
+無料の Starter プランでも 15 分間アクセスないとダウンはしないのでずっと動く。
 
-- アプリの右上にある `Manual Deploy` をクリック
+render と railway の違い
 
-- SSH で接続してプロセスを kill (未確認)
-
-## メモ
-
-runtime enviroment は node, Docker どちらの方法でデプロイしても動作した。
-
-node はビルドに 4 分ほど。
-
-Docker はビルドに 1 分ほど。
-
-Docker でデプロイするのが良さそう。
-
-どちらの方法でデプロイしても Deploy failed と表示される。  
-ボットは正常に動作していた。
+|                         | render                                                                                                             | railway                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| Dockerfile でのデプロイ | マルチステージビルドに対応していない([ドキュメント](https://render.com/docs/docker)には書いてあるけどできなかった) | マルチステージビルドに対応(ステージの指定はできない)                    |
+| インアクティブでダウン  | 15 分後(リクエストあればリスタート)                                                                                | なし                                                                    |
+| PostgreSQL の期限       | [90 日後に停止](https://render.com/docs/free#free-postgresql-databases)                                            | [ドキュメント](https://docs.railway.app/develop/services)見るとなさそう |
+| PostgreSQL のバージョン | [選択可](https://render.com/docs/databases#database-versions--upgrades)                                            | [選択不可](https://docs.railway.app/databases/postgresql#image)         |
